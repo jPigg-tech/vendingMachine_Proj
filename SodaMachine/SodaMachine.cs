@@ -21,16 +21,21 @@ namespace SodaMachine
             Quarter quarter = new Quarter();
             Dime dime = new Dime();
             Nickel nickle = new Nickel();
-            Penny pennt = new Penny();
+            Penny penny = new Penny();
+
+            FillRegister(quarter);
+            FillRegister(dime);
+            FillRegister(nickle);
+            FillRegister(penny);
 
             RootBeer rootBeer = new RootBeer();
             Cola cola = new Cola();
             OrangeSoda orangeSoda = new OrangeSoda();
 
-            FillRegister();
+            FillInventory(rootBeer);
+            FillInventory(cola);
+            FillInventory(orangeSoda);
 
-            FillInventory();
-            
         }
 
         //Member Methods (Can Do)
