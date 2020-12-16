@@ -26,7 +26,6 @@ namespace SodaMachine
         //When all is said and done this method will return a list of coin objects that the customer will use as payment for their soda.
         public List<Coin> GatherCoinsFromWallet(Can selectedCan)
         {
-            //what do we need to compare the price of the can to?
             double valueOfCoinsRemovedFromWallet = 0;
             List<Coin> digitalHand = new List<Coin>();
 
@@ -34,30 +33,39 @@ namespace SodaMachine
             {
                 if ((selectedCan.Price - valueOfCoinsRemovedFromWallet) > .25 )
                 {
-                    
+                    GetCoinFromWallet("Quarter");
+                    valueOfCoinsRemovedFromWallet += GetCoinFromWallet("Quarter").Value;
+                    digitalHand.Add(GetCoinFromWallet("Quarter"));
                 }
                 else if ((selectedCan.Price - valueOfCoinsRemovedFromWallet) > .10)
                 {
-
+                    GetCoinFromWallet("Dime");
+                    valueOfCoinsRemovedFromWallet += GetCoinFromWallet("Dime").Value;
+                    digitalHand.Add(GetCoinFromWallet("Dime"));
                 }
                 else if ((selectedCan.Price - valueOfCoinsRemovedFromWallet) > .05)
                 {
-
+                    GetCoinFromWallet("Nickle");
+                    valueOfCoinsRemovedFromWallet += GetCoinFromWallet("Nickle").Value;
+                    digitalHand.Add(GetCoinFromWallet("Nickle"));
                 }
                 else if ((selectedCan.Price - valueOfCoinsRemovedFromWallet) > .01)
                 {
-
+                    GetCoinFromWallet("Penny");
+                    valueOfCoinsRemovedFromWallet += GetCoinFromWallet("Penny").Value;
+                    digitalHand.Add(GetCoinFromWallet("Penny"));
                 }
                 else
                 {
-
+                    return digitalHand;
                 }
             }
+            return digitalHand;
         }
         //Returns a coin object from the wallet based on the name passed into it.
         //Returns null if no coin can be found
         public Coin GetCoinFromWallet(string coinName)
-        {
+        {           
             Coin coin = new Coin();
             for (int i = 0; i < Wallet.Coins.Count; i++)
             {
