@@ -9,7 +9,7 @@ namespace SodaMachine
     class SodaMachine
     {
         //Member Variables (Has A)
-        private List<Coin> _register;
+        public List<Coin> _register;
         private List<Can> _inventory;
 
         //Constructor (Spawner)
