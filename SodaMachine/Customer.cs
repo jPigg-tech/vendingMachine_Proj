@@ -33,26 +33,22 @@ namespace SodaMachine
             {
                 if ((selectedCan.Price - valueOfCoinsRemovedFromWallet) > .25 )
                 {
-                    GetCoinFromWallet("Quarter");
-                    valueOfCoinsRemovedFromWallet += GetCoinFromWallet("Quarter").Value;
+                    valueOfCoinsRemovedFromWallet += .25;
                     digitalHand.Add(GetCoinFromWallet("Quarter"));
                 }
                 else if ((selectedCan.Price - valueOfCoinsRemovedFromWallet) > .10)
                 {
-                    GetCoinFromWallet("Dime");
-                    valueOfCoinsRemovedFromWallet += GetCoinFromWallet("Dime").Value;
+                    valueOfCoinsRemovedFromWallet += .10;
                     digitalHand.Add(GetCoinFromWallet("Dime"));
                 }
                 else if ((selectedCan.Price - valueOfCoinsRemovedFromWallet) > .05)
                 {
-                    GetCoinFromWallet("Nickle");
-                    valueOfCoinsRemovedFromWallet += GetCoinFromWallet("Nickle").Value;
+                    valueOfCoinsRemovedFromWallet += .05;
                     digitalHand.Add(GetCoinFromWallet("Nickle"));
                 }
                 else if ((selectedCan.Price - valueOfCoinsRemovedFromWallet) > .01)
                 {
-                    GetCoinFromWallet("Penny");
-                    valueOfCoinsRemovedFromWallet += GetCoinFromWallet("Penny").Value;
+                    valueOfCoinsRemovedFromWallet += .01;
                     digitalHand.Add(GetCoinFromWallet("Penny"));
                 }
                 else
@@ -72,6 +68,7 @@ namespace SodaMachine
                 if (coinName == Wallet.Coins[i].Name)
                 {
                     coin = Wallet.Coins[i];
+                    Wallet.Coins.Remove(coin);
                 }
                 else
                 {
@@ -84,19 +81,17 @@ namespace SodaMachine
         //Takes in a list of coin objects to add into the customers wallet.
         public void AddCoinsIntoWallet(List<Coin> coinsToAdd)
         {
-            Wallet wallet = new Wallet();
             //wallet.Coins.AddRange(coinsToAdd);
 
             foreach (Coin coin in coinsToAdd)
             {
-                wallet.Coins.Add(coin);
+                Wallet.Coins.Add(coin);
             }
         }
         //Takes in a can object to add to the customers backpack.
         public void AddCanToBackpack(Can purchasedCan)
-        {
-            Backpack backpack = new Backpack();
-            backpack.cans.Add(purchasedCan);
+        { 
+            Backpack.cans.Add(purchasedCan);
         }
     }
 }
