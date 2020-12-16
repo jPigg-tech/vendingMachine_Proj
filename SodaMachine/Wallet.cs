@@ -14,13 +14,16 @@ namespace SodaMachine
         public Wallet()
         {
             Coins = new List<Coin>();
+
+
+
             FillRegister();
         }
         //Member Methods (Can Do)
         //Fills wallet with starting money
-        private void FillRegister()
+        private void FillRegister(Coin coin, int startingUnits)
         {
-          
+            Coins.AddRange(Enumerable.Repeat(coin, startingUnits));
         }
     }
 }
