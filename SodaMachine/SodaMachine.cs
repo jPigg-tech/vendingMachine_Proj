@@ -44,13 +44,13 @@ namespace SodaMachine
         public void FillRegister(Coin coin, int startingUnits)
         {
             _register.AddRange(Enumerable.Repeat(coin, startingUnits));
-            // _register.Add(coin);
+            
         }
         //A method to fill the sodamachines inventory with soda can objects.
         public void FillInventory(Can can, int startingUnits)
         {
             _inventory.AddRange(Enumerable.Repeat(can, startingUnits));
-            // _inventory.Add(can);
+            
         }
         //Method to be called to start a transaction.
         //Takes in a customer which can be passed freely to which ever method needs it.
@@ -94,7 +94,10 @@ namespace SodaMachine
         //If the change cannot be made, return null.
         private List<Coin> GatherChange(double changeValue)
         {
-            
+            if (_register.Range.value.Count => changeValue)
+            {
+                
+            }
         }
         //Reusable method to check if the register has a coin of that name.
         //If it does have one, return true.  Else, false.
