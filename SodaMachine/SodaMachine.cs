@@ -126,7 +126,8 @@ namespace SodaMachine
         //Puts a list of coins into the soda machines register.
         private void DepositCoinsIntoRegister(List<Coin> coins)
         {
-           
+            coins = GatherChange(changeValue);
+            _register += coins;
         }
     }
 }

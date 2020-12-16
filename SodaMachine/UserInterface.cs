@@ -120,7 +120,7 @@ namespace SodaMachine
             List<Can> uniqueCans = GetUniqueCans(SodaOptions);
             int selection;
             do
-            {
+            { 
                 Console.WriteLine("\nPlease choose from the following.");
                 for (int i = 0; i < uniqueCans.Count; i++)
                 {
