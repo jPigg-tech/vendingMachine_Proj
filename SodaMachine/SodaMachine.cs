@@ -50,7 +50,7 @@ namespace SodaMachine
         public void FillInventory(Can can, int startingUnits)
         {
             _inventory.AddRange(Enumerable.Repeat(can, startingUnits));
-            //_inventory.Add(can);
+            // _inventory.Add(can);
         }
         //Method to be called to start a transaction.
         //Takes in a customer which can be passed freely to which ever method needs it.
@@ -116,7 +116,12 @@ namespace SodaMachine
         //Takes in a list of coins to returnt he total value of the coins as a double.
         private double TotalCoinValue(List<Coin> payment)
         {
-           
+            double coinValueTotal = 0;
+            foreach (Coin coin in payment)
+            {
+                coinValueTotal += coin.Value;              
+            }
+            return coinValueTotal;
         }
         //Puts a list of coins into the soda machines register.
         private void DepositCoinsIntoRegister(List<Coin> coins)
