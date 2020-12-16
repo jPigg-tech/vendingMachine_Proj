@@ -15,9 +15,17 @@ namespace SodaMachine
         {
             Coins = new List<Coin>();
 
+            Quarter quarter = new Quarter();
+            Dime dime = new Dime();
+            Nickel nickle = new Nickel();
+            Penny penny = new Penny();
 
+            FillRegister(quarter, 12);
+            FillRegister(dime, 10);
+            FillRegister(nickle, 20);
+            FillRegister(penny, 25);
 
-            FillRegister();
+            // FillRegister();
         }
         //Member Methods (Can Do)
         //Fills wallet with starting money

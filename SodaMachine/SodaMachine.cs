@@ -26,7 +26,7 @@ namespace SodaMachine
             FillRegister(quarter, 20);
             FillRegister(dime, 10);
             FillRegister(nickle, 20);
-            FillRegister(penny, 10);
+            FillRegister(penny, 50);
 
             RootBeer rootBeer = new RootBeer();
             Cola cola = new Cola();
