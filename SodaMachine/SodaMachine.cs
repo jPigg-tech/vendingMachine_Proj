@@ -63,13 +63,13 @@ namespace SodaMachine
             }
         }
         
-        //This is the main transaction logic think of it like "runGame".  This is where the user will be prompted for the desired soda.
+        //This is the main transaction logic think of it like "runGame". This is where the user will be prompted for the desired soda.
         //grab the desired soda from the inventory.
         //get payment from the user.
         //pass payment to the calculate transaction method to finish up the transaction based on the results.
         private void Transaction(Customer customer)
         {
-           
+            
         }
         //Gets a soda from the inventory based on the name of the soda.
         private Can GetSodaFromInventory(string nameOfSoda)
@@ -99,7 +99,27 @@ namespace SodaMachine
         //If the payment does not meet the cost of the soda: dispense payment back to the customer.
         private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)
         {
-           
+            if (TotalCoinValue(payment) > chosenSoda.Price && _register.Count >= DetermineChange(payment.Count, chosenSoda.Price))
+            {
+                DepositCoinsIntoRegister(payment);
+                GetSodaFromInventory(chosenSoda.Name);
+                GatherChange(DetermineChange(payment.Count, chosenSoda.Price));
+            }
+            else if (TotalCoinValue(payment) > chosenSoda.Price && _register.Count != DetermineChange(payment.Count, chosenSoda.Price))
+            {
+                DepositCoinsIntoRegister(payment);
+                GatherChange(DetermineChange(payment.Count, 0));
+            }
+            else if (TotalCoinValue(payment) == chosenSoda.Price)
+            {
+                DepositCoinsIntoRegister(payment);
+                GetSodaFromInventory(chosenSoda.Name);
+            }
+            else if(TotalCoinValue(payment) != chosenSoda.Price)
+            {
+                DepositCoinsIntoRegister(payment);
+                GatherChange(DetermineChange(payment.Count, 0));
+            }
         }
         //Takes in the value of the amount of change needed.
         //Attempts to gather all the required coins from the sodamachine's register to make change.
@@ -182,7 +202,7 @@ namespace SodaMachine
             double changeDetermined = totalPayment - canPrice;
             return changeDetermined;
         }
-        //Takes in a list of coins to returnt he total value of the coins as a double.
+        //Takes in a list of coins to return the total value of the coins as a double.
         private double TotalCoinValue(List<Coin> payment)
         {
             double coinValueTotal = 0;
