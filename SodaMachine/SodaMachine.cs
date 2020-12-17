@@ -94,10 +94,39 @@ namespace SodaMachine
         //If the change cannot be made, return null.
         private List<Coin> GatherChange(double changeValue)
         {
-            if (_register.Range.value.Count => changeValue)
+            double valueOfCoinsRemovedFromRegister = 0;
+            List<Coin> coinsUsedForChange = new List<Coin>();
+
+            // while that is true and RegisterHasCoin("Quarter") == true;
+
+            while (changeValue > valueOfCoinsRemovedFromRegister)
             {
-                
+                if ((changeValue - valueOfCoinsRemovedFromRegister) > .25)
+                {
+                    valueOfCoinsRemovedFromRegister += .25;
+                    coinsUsedForChange.Add(GetCoinFromRegister("Quarter"));
+                }
+                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .10)
+                {
+                    valueOfCoinsRemovedFromRegister += .10;
+                    coinsUsedForChange.Add(GetCoinFromRegister("Dime"));
+                }
+                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .05)
+                {
+                    valueOfCoinsRemovedFromRegister += .05;
+                    coinsUsedForChange.Add(GetCoinFromRegister("Nickle"));
+                }
+                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .01)
+                {
+                    valueOfCoinsRemovedFromRegister += .01;
+                    coinsUsedForChange.Add(GetCoinFromRegister("Penny"));
+                }
+                else
+                {
+                    return null;
+                }
             }
+            return coinsUsedForChange;
         }
         //Reusable method to check if the register has a coin of that name.
         //If it does have one, return true.  Else, false.

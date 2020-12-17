@@ -53,7 +53,7 @@ namespace SodaMachine
                 }
                 else
                 {
-                    return digitalHand;
+                    return null;
                 }
             }
             return digitalHand;
