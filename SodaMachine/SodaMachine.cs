@@ -103,13 +103,26 @@ namespace SodaMachine
         //If it does have one, return true.  Else, false.
         private bool RegisterHasCoin(string name)
         {
-           
+            
         }
         //Reusable method to return a coin from the register.
         //Returns null if no coin can be found of that name.
         private Coin GetCoinFromRegister(string name)
         {
-            
+            Coin coin = new Coin();
+            foreach (Coin item in _register)
+            {
+                if (name == _register.item.Name)
+                {
+                    coin = _register.item.Name;                   
+                    _register.Remove(coin);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return coin;
         }
         //Takes in the total payment amount and the price of can to return the change amount.
         private double DetermineChange(double totalPayment, double canPrice)
