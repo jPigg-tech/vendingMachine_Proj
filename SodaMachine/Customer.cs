@@ -27,12 +27,13 @@ namespace SodaMachine
         public List<Coin> GatherCoinsFromWallet(Can selectedCan)
         {
             List<Coin> digitalHand = new List<Coin>();
-            string coinChoice = UserInterface.CoinSelection(selectedCan, digitalHand);
-            Coin coin = GetCoinFromWallet(coinChoice);
             double coinsAlreadyAdded = 0;
-
-            while (selectedCan.Price > coinsAlreadyAdded + coin.Value)
+            
+            while (selectedCan.Price > coinsAlreadyAdded)
             {
+                string coinChoice = UserInterface.CoinSelection(selectedCan, digitalHand);
+                Coin coin = GetCoinFromWallet(coinChoice);
+                coinsAlreadyAdded += coin.Value;
                 digitalHand.Add(coin);
             }
             return digitalHand;

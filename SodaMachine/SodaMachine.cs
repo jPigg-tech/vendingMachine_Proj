@@ -217,10 +217,10 @@ namespace SodaMachine
         private double TotalCoinValue(List<Coin> payment)
         {
             double coinValueTotal = 0;
-            //foreach (Coin coin in payment)
-            //{
-            //    coinValueTotal += coin.Value;              
-            //}
+            foreach (Coin coin in payment)
+            {
+                coinValueTotal += coin.Value;              
+            }
             return coinValueTotal;
         }
         //Puts a list of coins into the soda machines register.
