@@ -9,7 +9,7 @@ namespace SodaMachine
     class SodaMachine
     {
         //Member Variables (Has A)
-        public List<Coin> _register;
+        private List<Coin> _register;
         private List<Can> _inventory;
 
         //Constructor (Spawner)
@@ -74,7 +74,20 @@ namespace SodaMachine
         //Gets a soda from the inventory based on the name of the soda.
         private Can GetSodaFromInventory(string nameOfSoda)
         {
-          
+
+            for (int i = 0; i < _inventory.Count; i++)
+            {
+                if (nameOfSoda == _inventory[i].Name)
+                {                 
+                    _inventory.Remove(_inventory[i]);
+                    return _inventory[i];                   
+                }
+                else 
+                {
+                    continue;
+                }               
+            }
+            return null;
         }
 
         //This is the main method for calculating the result of the transaction.
@@ -101,22 +114,22 @@ namespace SodaMachine
 
             while (changeValue > valueOfCoinsRemovedFromRegister)
             {
-                if ((changeValue - valueOfCoinsRemovedFromRegister) > .25)
+                if ((changeValue - valueOfCoinsRemovedFromRegister) > .25 && RegisterHasCoin("Quarter")) 
                 {
                     valueOfCoinsRemovedFromRegister += .25;
-                    coinsUsedForChange.Add(GetCoinFromRegister("Quarter"));
+                    coinsUsedForChange.Add(GetCoinFromRegister("Quarter"));                   
                 }
-                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .10)
+                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .10 && RegisterHasCoin("Dime"))
                 {
                     valueOfCoinsRemovedFromRegister += .10;
                     coinsUsedForChange.Add(GetCoinFromRegister("Dime"));
                 }
-                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .05)
+                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .05 && RegisterHasCoin("Nickle"))
                 {
                     valueOfCoinsRemovedFromRegister += .05;
                     coinsUsedForChange.Add(GetCoinFromRegister("Nickle"));
                 }
-                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .01)
+                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .01 && RegisterHasCoin("Penny"))
                 {
                     valueOfCoinsRemovedFromRegister += .01;
                     coinsUsedForChange.Add(GetCoinFromRegister("Penny"));
@@ -140,28 +153,28 @@ namespace SodaMachine
                 }
                 else
                 {
-                    return false;
+                    continue;
                 }
             }
+            return false;
         }
         //Reusable method to return a coin from the register.
         //Returns null if no coin can be found of that name.
         private Coin GetCoinFromRegister(string name)
         {
-            Coin coin = new Coin();
-            foreach (Coin item in _register)
+            for (int i = 0; i < _register.Count; i++)           
             {
-                if (name == _register.item.Name)
+                if (name == _register[i].Name)
                 {
-                    coin = _register.item.Name;                   
-                    _register.Remove(coin);
+                    _register.Remove(_register[i]);
+                    return _register[i];                   
                 }
                 else
                 {
-                    return null;
+                    continue;
                 }
             }
-            return coin;
+            return null;
         }
         //Takes in the total payment amount and the price of can to return the change amount.
         private double DetermineChange(double totalPayment, double canPrice)
