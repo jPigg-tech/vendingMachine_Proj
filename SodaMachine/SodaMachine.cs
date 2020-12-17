@@ -140,41 +140,37 @@ namespace SodaMachine
             double valueOfCoinsRemovedFromRegister = 0;
             List<Coin> coinsUsedForChange = new List<Coin>();
 
-            foreach (Coin coin in coinsUsedForChange)
+            while (changeValue > valueOfCoinsRemovedFromRegister)
             {
-                while (changeValue > valueOfCoinsRemovedFromRegister)
+                if ((changeValue - valueOfCoinsRemovedFromRegister) > .25 && RegisterHasCoin("Quarter"))
                 {
-                    if ((changeValue - valueOfCoinsRemovedFromRegister) > .25 && RegisterHasCoin("Quarter"))
-                    {
-                        valueOfCoinsRemovedFromRegister += .25;
-                        coinsUsedForChange.Add(GetCoinFromRegister("Quarter"));
-                        return coinsUsedForChange;
-                    }
-                    else if ((changeValue - valueOfCoinsRemovedFromRegister) > .10 && RegisterHasCoin("Dime"))
-                    {
-                        valueOfCoinsRemovedFromRegister += .10;
-                        coinsUsedForChange.Add(GetCoinFromRegister("Dime"));
-                        return coinsUsedForChange;
-                    }
-                    else if ((changeValue - valueOfCoinsRemovedFromRegister) > .05 && RegisterHasCoin("Nickle"))
-                    {
-                        valueOfCoinsRemovedFromRegister += .05;
-                        coinsUsedForChange.Add(GetCoinFromRegister("Nickle"));
-                        return coinsUsedForChange;
-                    }
-                    else if ((changeValue - valueOfCoinsRemovedFromRegister) > .01 && RegisterHasCoin("Penny"))
-                    {
-                        valueOfCoinsRemovedFromRegister += .01;
-                        coinsUsedForChange.Add(GetCoinFromRegister("Penny"));
-                        return coinsUsedForChange;
-                    }
-                    else
-                    {
-                        continue;
-                    }
+                    valueOfCoinsRemovedFromRegister += .25;
+                    coinsUsedForChange.Add(GetCoinFromRegister("Quarter"));
+                }
+                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .10 && RegisterHasCoin("Dime"))
+                {
+                    valueOfCoinsRemovedFromRegister += .10;
+                    coinsUsedForChange.Add(GetCoinFromRegister("Dime"));
+                }
+                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .05 && RegisterHasCoin("Nickle"))
+                {
+                    valueOfCoinsRemovedFromRegister += .05;
+                    coinsUsedForChange.Add(GetCoinFromRegister("Nickle"));
+                }
+                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .01 && RegisterHasCoin("Penny"))
+                {
+                    valueOfCoinsRemovedFromRegister += .01;
+                    coinsUsedForChange.Add(GetCoinFromRegister("Penny"));
+                }
+                else
+                {
+                    Console.WriteLine(changeValue);
+                    Console.WriteLine(valueOfCoinsRemovedFromRegister);
+                    Console.WriteLine("Error");
+                    // roll back transaction 
                 }
             }
-            return null;         
+            return coinsUsedForChange;         
         }
         //Reusable method to check if the register has a coin of that name.
         //If it does have one, return true.  Else, false.
@@ -221,10 +217,10 @@ namespace SodaMachine
         private double TotalCoinValue(List<Coin> payment)
         {
             double coinValueTotal = 0;
-            foreach (Coin coin in payment)
-            {
-                coinValueTotal += coin.Value;              
-            }
+            //foreach (Coin coin in payment)
+            //{
+            //    coinValueTotal += coin.Value;              
+            //}
             return coinValueTotal;
         }
         //Puts a list of coins into the soda machines register.
