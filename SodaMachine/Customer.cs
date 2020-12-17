@@ -27,35 +27,37 @@ namespace SodaMachine
         public List<Coin> GatherCoinsFromWallet(Can selectedCan)
         {
             List<Coin> digitalHand = new List<Coin>();
-
-            while (selectedCan.Price > digitalHand.Count)
+            for (int i = 0; i < digitalHand.Count; i++)
             {
-                if ((selectedCan.Price - digitalHand.Count) > .25 )
+                while (selectedCan.Price > digitalHand[i].Value)
                 {
-                    digitalHand.Add(GetCoinFromWallet("Quarter"));
-                    return digitalHand;
+                    if ((selectedCan.Price - digitalHand[i].Value) > .25)
+                    {
+                        digitalHand.Add(GetCoinFromWallet("Quarter"));
+                        return digitalHand;
+                    }
+                    else if ((selectedCan.Price - digitalHand[i].Value) > .10)
+                    {
+                        digitalHand.Add(GetCoinFromWallet("Dime"));
+                        return digitalHand;
+                    }
+                    else if ((selectedCan.Price - digitalHand[i].Value) > .05)
+                    {
+                        digitalHand.Add(GetCoinFromWallet("Nickle"));
+                        return digitalHand;
+                    }
+                    else if ((selectedCan.Price - digitalHand[i].Value) > .01)
+                    {
+                        digitalHand.Add(GetCoinFromWallet("Penny"));
+                        return digitalHand;
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
-                else if ((selectedCan.Price - digitalHand.Count) > .10)
-                {
-                    digitalHand.Add(GetCoinFromWallet("Dime"));
-                    return digitalHand;
-                }
-                else if ((selectedCan.Price - digitalHand.Count) > .05)
-                {
-                    digitalHand.Add(GetCoinFromWallet("Nickle"));
-                    return digitalHand;
-                }
-                else if ((selectedCan.Price - digitalHand.Count) > .01)
-                {
-                    digitalHand.Add(GetCoinFromWallet("Penny"));
-                    return digitalHand;
-                }
-                else
-                {
-                    continue;
-                }
-            }
-            return null;
+            }        
+            return null;            
         }
         //Returns a coin object from the wallet based on the name passed into it.
         //Returns null if no coin can be found

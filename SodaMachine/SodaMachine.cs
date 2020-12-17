@@ -69,7 +69,8 @@ namespace SodaMachine
         //pass payment to the calculate transaction method to finish up the transaction based on the results.
         private void Transaction(Customer customer)
         {
-            
+            GetSodaFromInventory(UserInterface.SodaSelection(_inventory));
+
         }
         //Gets a soda from the inventory based on the name of the soda.
         private Can GetSodaFromInventory(string nameOfSoda)
@@ -99,32 +100,32 @@ namespace SodaMachine
         //If the payment does not meet the cost of the soda: dispense payment back to the customer.
         private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)
         {
-            double determinedChange = DetermineChange(payment.Count, chosenSoda.Price);
+            double determinedChange = DetermineChange(TotalCoinValue(payment), chosenSoda.Price);
 
-            if (TotalCoinValue(payment) > chosenSoda.Price && _register.Count >= determinedChange)
-            {
-                DepositCoinsIntoRegister(payment);
+            customer.GatherCoinsFromWallet(chosenSoda);
+            DepositCoinsIntoRegister(payment);
+
+            if (TotalCoinValue(payment) > chosenSoda.Price && TotalCoinValue(_register) >= determinedChange)
+            {               
                 GetSodaFromInventory(chosenSoda.Name);
-                customer.Backpack.cans.Add(chosenSoda);
+                customer.AddCanToBackpack(chosenSoda);
                 GatherChange(determinedChange);
-                customer.Wallet.Coins.Add(GatherChange(determinedChange));
+                customer.AddCoinsIntoWallet(GatherChange(determinedChange));
             }
-            else if (TotalCoinValue(payment) > chosenSoda.Price && _register.Count != determinedChange)
+            else if (TotalCoinValue(payment) > chosenSoda.Price && TotalCoinValue(_register) < determinedChange)
             {
-                DepositCoinsIntoRegister(payment);
-                GatherChange(DetermineChange(payment.Count, 0));
+                GatherChange(DetermineChange(TotalCoinValue(payment), 0));
+                customer.AddCoinsIntoWallet(GatherChange(determinedChange));
             }
             else if (TotalCoinValue(payment) == chosenSoda.Price)
             {
-                DepositCoinsIntoRegister(payment);
-                customer.Wallet.Coins.Remove(payment.Coins.Count);
                 GetSodaFromInventory(chosenSoda.Name);
-                customer.Backpack.cans.Add(chosenSoda);
+                customer.AddCanToBackpack(chosenSoda);
             }
             else if(TotalCoinValue(payment) != chosenSoda.Price)
             {
-                DepositCoinsIntoRegister(payment);
-                GatherChange(DetermineChange(payment.Count, 0));
+                GatherChange(DetermineChange(TotalCoinValue(payment), 0));
+                customer.AddCoinsIntoWallet(GatherChange(determinedChange));
             }
         }
         //Takes in the value of the amount of change needed.
@@ -136,36 +137,41 @@ namespace SodaMachine
             double valueOfCoinsRemovedFromRegister = 0;
             List<Coin> coinsUsedForChange = new List<Coin>();
 
-            // while that is true and RegisterHasCoin("Quarter") == true;
-
-            while (changeValue > valueOfCoinsRemovedFromRegister)
+            foreach (Coin coin in coinsUsedForChange)
             {
-                if ((changeValue - valueOfCoinsRemovedFromRegister) > .25 && RegisterHasCoin("Quarter")) 
+                while (changeValue > valueOfCoinsRemovedFromRegister)
                 {
-                    valueOfCoinsRemovedFromRegister += .25;
-                    coinsUsedForChange.Add(GetCoinFromRegister("Quarter"));                   
-                }
-                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .10 && RegisterHasCoin("Dime"))
-                {
-                    valueOfCoinsRemovedFromRegister += .10;
-                    coinsUsedForChange.Add(GetCoinFromRegister("Dime"));
-                }
-                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .05 && RegisterHasCoin("Nickle"))
-                {
-                    valueOfCoinsRemovedFromRegister += .05;
-                    coinsUsedForChange.Add(GetCoinFromRegister("Nickle"));
-                }
-                else if ((changeValue - valueOfCoinsRemovedFromRegister) > .01 && RegisterHasCoin("Penny"))
-                {
-                    valueOfCoinsRemovedFromRegister += .01;
-                    coinsUsedForChange.Add(GetCoinFromRegister("Penny"));
-                }
-                else
-                {
-                    return null;
+                    if ((changeValue - valueOfCoinsRemovedFromRegister) > .25 && RegisterHasCoin("Quarter"))
+                    {
+                        valueOfCoinsRemovedFromRegister += .25;
+                        coinsUsedForChange.Add(GetCoinFromRegister("Quarter"));
+                        return coinsUsedForChange;
+                    }
+                    else if ((changeValue - valueOfCoinsRemovedFromRegister) > .10 && RegisterHasCoin("Dime"))
+                    {
+                        valueOfCoinsRemovedFromRegister += .10;
+                        coinsUsedForChange.Add(GetCoinFromRegister("Dime"));
+                        return coinsUsedForChange;
+                    }
+                    else if ((changeValue - valueOfCoinsRemovedFromRegister) > .05 && RegisterHasCoin("Nickle"))
+                    {
+                        valueOfCoinsRemovedFromRegister += .05;
+                        coinsUsedForChange.Add(GetCoinFromRegister("Nickle"));
+                        return coinsUsedForChange;
+                    }
+                    else if ((changeValue - valueOfCoinsRemovedFromRegister) > .01 && RegisterHasCoin("Penny"))
+                    {
+                        valueOfCoinsRemovedFromRegister += .01;
+                        coinsUsedForChange.Add(GetCoinFromRegister("Penny"));
+                        return coinsUsedForChange;
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
             }
-            return coinsUsedForChange;
+            return null;         
         }
         //Reusable method to check if the register has a coin of that name.
         //If it does have one, return true.  Else, false.
