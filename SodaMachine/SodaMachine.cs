@@ -103,7 +103,17 @@ namespace SodaMachine
         //If it does have one, return true.  Else, false.
         private bool RegisterHasCoin(string name)
         {
-            
+            for (int i = 0; i < _register.Count; i++)
+            {
+                if (name == _register[i].Name)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
         //Reusable method to return a coin from the register.
         //Returns null if no coin can be found of that name.
