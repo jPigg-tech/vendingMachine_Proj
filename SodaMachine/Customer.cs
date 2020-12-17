@@ -26,37 +26,36 @@ namespace SodaMachine
         //When all is said and done this method will return a list of coin objects that the customer will use as payment for their soda.
         public List<Coin> GatherCoinsFromWallet(Can selectedCan)
         {
-            double valueOfCoinsRemovedFromWallet = 0;
             List<Coin> digitalHand = new List<Coin>();
 
-            while (selectedCan.Price > valueOfCoinsRemovedFromWallet)
+            while (selectedCan.Price > digitalHand.Count)
             {
-                if ((selectedCan.Price - valueOfCoinsRemovedFromWallet) > .25 )
+                if ((selectedCan.Price - digitalHand.Count) > .25 )
                 {
-                    valueOfCoinsRemovedFromWallet += .25;
                     digitalHand.Add(GetCoinFromWallet("Quarter"));
+                    return digitalHand;
                 }
-                else if ((selectedCan.Price - valueOfCoinsRemovedFromWallet) > .10)
+                else if ((selectedCan.Price - digitalHand.Count) > .10)
                 {
-                    valueOfCoinsRemovedFromWallet += .10;
                     digitalHand.Add(GetCoinFromWallet("Dime"));
+                    return digitalHand;
                 }
-                else if ((selectedCan.Price - valueOfCoinsRemovedFromWallet) > .05)
+                else if ((selectedCan.Price - digitalHand.Count) > .05)
                 {
-                    valueOfCoinsRemovedFromWallet += .05;
                     digitalHand.Add(GetCoinFromWallet("Nickle"));
+                    return digitalHand;
                 }
-                else if ((selectedCan.Price - valueOfCoinsRemovedFromWallet) > .01)
+                else if ((selectedCan.Price - digitalHand.Count) > .01)
                 {
-                    valueOfCoinsRemovedFromWallet += .01;
                     digitalHand.Add(GetCoinFromWallet("Penny"));
+                    return digitalHand;
                 }
                 else
                 {
-                    return null;
+                    continue;
                 }
             }
-            return digitalHand;
+            return null;
         }
         //Returns a coin object from the wallet based on the name passed into it.
         //Returns null if no coin can be found

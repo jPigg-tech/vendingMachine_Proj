@@ -99,13 +99,17 @@ namespace SodaMachine
         //If the payment does not meet the cost of the soda: dispense payment back to the customer.
         private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)
         {
-            if (TotalCoinValue(payment) > chosenSoda.Price && _register.Count >= DetermineChange(payment.Count, chosenSoda.Price))
+            double determinedChange = DetermineChange(payment.Count, chosenSoda.Price);
+
+            if (TotalCoinValue(payment) > chosenSoda.Price && _register.Count >= determinedChange)
             {
                 DepositCoinsIntoRegister(payment);
                 GetSodaFromInventory(chosenSoda.Name);
-                GatherChange(DetermineChange(payment.Count, chosenSoda.Price));
+                customer.Backpack.cans.Add(chosenSoda);
+                GatherChange(determinedChange);
+                customer.Wallet.Coins.Add(GatherChange(determinedChange));
             }
-            else if (TotalCoinValue(payment) > chosenSoda.Price && _register.Count != DetermineChange(payment.Count, chosenSoda.Price))
+            else if (TotalCoinValue(payment) > chosenSoda.Price && _register.Count != determinedChange)
             {
                 DepositCoinsIntoRegister(payment);
                 GatherChange(DetermineChange(payment.Count, 0));
@@ -113,7 +117,9 @@ namespace SodaMachine
             else if (TotalCoinValue(payment) == chosenSoda.Price)
             {
                 DepositCoinsIntoRegister(payment);
+                customer.Wallet.Coins.Remove(payment.Coins.Count);
                 GetSodaFromInventory(chosenSoda.Name);
+                customer.Backpack.cans.Add(chosenSoda);
             }
             else if(TotalCoinValue(payment) != chosenSoda.Price)
             {
