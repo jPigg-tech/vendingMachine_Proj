@@ -109,8 +109,8 @@ namespace SodaMachine
             {               
                 GetSodaFromInventory(chosenSoda.Name);
                 customer.AddCanToBackpack(chosenSoda);
-                GatherChange(determinedChange);
-                customer.AddCoinsIntoWallet(GatherChange(determinedChange));
+                List<Coin> changeGathered = GatherChange(determinedChange);
+                customer.AddCoinsIntoWallet(changeGathered);
             }
             else if (TotalCoinValue(payment) > chosenSoda.Price && TotalCoinValue(_register) < determinedChange)
             {
