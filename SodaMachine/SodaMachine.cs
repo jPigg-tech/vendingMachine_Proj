@@ -43,14 +43,12 @@ namespace SodaMachine
         //A method to fill the sodamachines register with coin objects.
         public void FillRegister(Coin coin, int startingUnits)
         {
-            _register.AddRange(Enumerable.Repeat(coin, startingUnits));
-            
+            _register.AddRange(Enumerable.Repeat(coin, startingUnits));           
         }
         //A method to fill the sodamachines inventory with soda can objects.
         public void FillInventory(Can can, int startingUnits)
         {
-            _inventory.AddRange(Enumerable.Repeat(can, startingUnits));
-            
+            _inventory.AddRange(Enumerable.Repeat(can, startingUnits));           
         }
         //Method to be called to start a transaction.
         //Takes in a customer which can be passed freely to which ever method needs it.
@@ -70,15 +68,14 @@ namespace SodaMachine
         private void Transaction(Customer customer)
         {
             Can desiredCan = GetSodaFromInventory(UserInterface.SodaSelection(_inventory));
-            
+
             List<Coin> customerPayment = customer.GatherCoinsFromWallet(desiredCan);
 
             CalculateTransaction(customerPayment, desiredCan, customer);
         }
         //Gets a soda from the inventory based on the name of the soda.
         private Can GetSodaFromInventory(string nameOfSoda)
-        {
-
+        { 
             for (int i = 0; i < _inventory.Count; i++)
             {
                 if (nameOfSoda == _inventory[i].Name)
@@ -103,10 +100,10 @@ namespace SodaMachine
         //If the payment does not meet the cost of the soda: dispense payment back to the customer.
         private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)
         {
-            double determinedChange = DetermineChange(TotalCoinValue(payment), chosenSoda.Price);
-
-            customer.GatherCoinsFromWallet(chosenSoda);
+            //customer.GatherCoinsFromWallet(chosenSoda);
             DepositCoinsIntoRegister(payment);
+
+            double determinedChange = DetermineChange(TotalCoinValue(payment), chosenSoda.Price);
 
             if (TotalCoinValue(payment) > chosenSoda.Price && TotalCoinValue(_register) >= determinedChange)
             {               
